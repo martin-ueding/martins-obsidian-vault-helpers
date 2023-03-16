@@ -14,7 +14,7 @@ def gather_references(path: pathlib.Path) -> list[str]:
     matches = []
     with open(path) as f:
         for line in f:
-            matches += re.findall(r"\[\[([^]/,'\"]+)]]", line)
+            matches += re.findall(r"\[\[([^]/,]+)]]", line)
     return matches
 
 
