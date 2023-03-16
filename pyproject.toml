@@ -9,7 +9,7 @@ license = "MIT"
 martins-obsidian-vault-helpers = "martins_obsidian_vault_helpers.__main__:main"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.9"
 
 [tool.poetry.dev-dependencies]
 
