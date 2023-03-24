@@ -3,7 +3,10 @@ import re
 import subprocess
 import urllib.parse
 
+from .command import print_context
 
+
+@print_context("Moving attachments")
 def rename_images_with_hash(vault: pathlib.Path, dry_run: bool) -> None:
     image_pattern = re.compile(r"!\[\[(.+)]]")
 
@@ -34,13 +37,11 @@ def rename_images_with_hash(vault: pathlib.Path, dry_run: bool) -> None:
 
 
 def move_images(moves: dict[str, str], dry_run: bool):
-    print("Moving attachments:")
     for old, new in moves.items():
         print(f"- {old} → {new}")
         assert old.exists()
         if not dry_run:
             old.rename(new)
-    print()
 
 
 def get_hash(file: pathlib.Path) -> str:
