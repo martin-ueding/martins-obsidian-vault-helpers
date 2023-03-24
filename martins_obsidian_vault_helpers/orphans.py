@@ -1,12 +1,11 @@
 import pathlib
 import shutil
 
+from .link_graph import build_link_graph
 
-def report_orphan_attachments(
-    vault: pathlib.Path,
-    link_graph: dict[pathlib.Path, list[pathlib.Path]],
-    dry_run: bool,
-) -> None:
+
+def report_orphan_attachments(vault: pathlib.Path, dry_run: bool) -> None:
+    link_graph = build_link_graph(vault)
     attachments = (vault / "Attachments").glob("*.*")
     targets = {target for targets in link_graph.values() for target in targets}
     print("Orphan attachments:")
@@ -20,9 +19,9 @@ def report_orphan_attachments(
 
 def report_notes_not_in_structure(
     vault: pathlib.Path,
-    link_graph: dict[pathlib.Path, list[pathlib.Path]],
     dry_run: bool,
 ) -> None:
+    link_graph = build_link_graph(vault)
     targets_of_structure_notes = {
         target
         for source, targets in link_graph.items()

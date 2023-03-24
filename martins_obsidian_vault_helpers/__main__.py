@@ -2,9 +2,7 @@ import argparse
 import pathlib
 
 from .attachments import rename_images_with_hash
-
 from .orphans import report_orphan_attachments, report_notes_not_in_structure
-from .link_graph import build_link_graph
 
 
 def main():
@@ -13,9 +11,8 @@ def main():
     vault = options.vault
 
     rename_images_with_hash(vault, options.dry_run)
-    link_graph = build_link_graph(vault)
-    report_orphan_attachments(vault, link_graph, options.dry_run)
-    report_notes_not_in_structure(vault, link_graph, options.dry_run)
+    report_orphan_attachments(vault, options.dry_run)
+    report_notes_not_in_structure(vault, options.dry_run)
 
 
 def parse_args() -> argparse.Namespace:
