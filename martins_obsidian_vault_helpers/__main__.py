@@ -1,7 +1,7 @@
 import argparse
 import pathlib
 
-from .attachments import rename_images_with_hash
+from .attachments import rename_images_with_hash, trim_images
 from .orphans import report_orphan_attachments, report_notes_not_in_structure
 
 
@@ -10,6 +10,7 @@ def main():
 
     vault = options.vault
 
+    # trim_images(vault, options.dry_run)
     rename_images_with_hash(vault, options.dry_run)
     report_orphan_attachments(vault, options.dry_run)
     report_notes_not_in_structure(vault, options.dry_run)

@@ -1,7 +1,10 @@
 import pathlib
 import re
+import shutil
 import subprocess
+import tempfile
 import urllib.parse
+import multiprocessing.pool
 
 from .command import print_context
 
@@ -47,3 +50,27 @@ def move_images(moves: dict[str, str], dry_run: bool):
 def get_hash(file: pathlib.Path) -> str:
     output = subprocess.run(["sha1sum", str(file)], capture_output=True, check=True)
     return output.stdout.decode().split()[0]
+
+
+@print_context("Trimming PNG images")
+def trim_images(vault: pathlib.Path, dry_run: bool) -> None:
+    with multiprocessing.pool.ThreadPool() as pool:
+        for image in vault.rglob("*.png"):
+            pool.apply(trim_single_image, (image, dry_run))
+
+
+def trim_single_image(image: pathlib.Path, dry_run: bool) -> None:
+    temp = pathlib.Path("/tmp") / image.name
+    old_hash = get_hash(image)
+    try:
+        subprocess.run(
+            ["convert", str(image), "-trim", "+repage", str(temp)], check=True
+        )
+    except subprocess.CalledProcessError:
+        pass
+    else:
+        new_hash = get_hash(temp)
+        if old_hash != new_hash:
+            print(f"- {image}")
+            if not dry_run:
+                shutil.copy(temp, image)
