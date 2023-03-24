@@ -10,7 +10,7 @@
             "request": "launch",
             "module": "martins_obsidian_vault_helpers",
             "justMyCode": true,
-            "args": ["~/Dokumente/Notizen"]
+            "args": ["--dry-run", "~/Dokumente/Notizen"]
         }
     ]
 }
