@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "martins-obsidian-vault-helpers"
-version = "0.1.0"
+version = "0.1.1"
 description = "Martin's helpers for an Obsidian Vault"
 authors = ["Martin Ueding <mu@martin-ueding.de>"]
 license = "MIT"
